@@ -1,0 +1,8 @@
+[api]
+host1.localdomain
+
+[db]
+host2.localdomain
+
+[db:vars]
+ansible_python_interpreter=/usr/bin/python3

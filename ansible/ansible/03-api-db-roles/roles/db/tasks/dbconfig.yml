@@ -1,0 +1,34 @@
+- name: Config DB
+  tags: CONFIGDB
+  become: true
+  become_user: postgres
+  become_method: su
+  become_exe: "sudo su -"
+  block:
+    - name: Create DB User
+      community.postgresql.postgresql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        role_attr_flags: LOGIN
+
+    - name: Create DB 
+      community.postgresql.postgresql_db:
+        name: "{{ db_name }}"
+        owner: "{{ db_user }}"
+        encoding: "{{ db_encoding }}"
+
+    - name: Pghba Configuration
+      community.postgresql.postgresql_pg_hba:
+        dest: /etc/postgresql/{{ pg_version}}/main/pg_hba.conf
+        contype: "host"
+        users: "{{ db_user }}"
+        databases: "{{ db_name }}"
+        source: "{{ hostvars[groups['api'][0]]['ansible_default_ipv4']['address'] }}"
+        method: scram-sha-256
+
+    - name: Postgresql Config
+      ansible.builtin.lineinfile:
+        path: /etc/postgresql/{{ pg_version}}/main/postgresql.conf
+        insertbefore: "^#listen_addresses"
+        line: "listen_addresses = '*'"
+        state: present

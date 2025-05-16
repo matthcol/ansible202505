@@ -1,0 +1,17 @@
+---
+- name: Deactivate sudoers deployment user
+  hosts: all
+  become: yes
+  tasks:
+    - name: Remove sudoers specific file + authorized keys
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/sudoers.d/{{ user_deploy }}
+        - /home/{{ user_deploy }}/.ssh/authorized_keys
+    - name: Delete User
+      ansible.builtin.user:
+        name: "{{ user_deploy }}"
+        state: absent
+        remove: true

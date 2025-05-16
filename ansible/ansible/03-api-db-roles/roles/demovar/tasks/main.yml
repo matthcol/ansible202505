@@ -1,0 +1,99 @@
+---
+# tasks file for roles/demovar
+
+# - name: Debug Facts
+#   ansible.builtin.debug:
+#     var: ansible_facts
+
+# Output (extract):
+#         "distribution": "Debian",
+#         "distribution_file_parsed": true,
+#         "distribution_file_path": "/etc/os-release",
+#         "distribution_file_variety": "Debian",
+#         "distribution_major_version": "12",
+#         "distribution_minor_version": "10",
+#         "distribution_release": "bookworm",
+#         "distribution_version": "12",
+#         "os_family": "Debian",
+
+- name: Debug distribution Release
+  ansible.builtin.debug:
+    var: ansible_facts.distribution_release
+
+- name: Debug Distribution infos
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop:
+    - "{{ ansible_facts.distribution_release }}"
+    - "{{ ansible_facts['distribution_release'] }}"
+    - "{{ ansible_distribution_release }}"
+
+- name: Debug Group vars
+  ansible.builtin.debug:
+    var: groups['db'][0]
+
+# https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_filters.html
+# https://jinja.palletsprojects.com/en/stable/templates/#builtin-filters
+
+- name: Debug Internal DB Hostname
+  ansible.builtin.debug:
+    msg: "{{ hostvars[groups['db'][0]]['ansible_facts']['hostname'] ~ '.' ~ hostvars[groups['db'][0]]['ansible_facts']['domain'] }}"
+
+- name: Debug Ip of another host
+  ansible.builtin.debug:
+    msg: "{{ hostvars[groups['api'][0]]['ansible_default_ipv4']['address'] }}"
+  tags: IPV4
+
+- name: Debug Unknown variable
+  ansible.builtin.debug:
+    msg: "{{ dummy_var | default(0) }}"
+
+- name: Debug Join List
+  ansible.builtin.debug:
+    msg: "{{ groups | join(', ') }}"
+
+- name: Debug Combine Filters
+  ansible.builtin.debug:
+    msg: "{{ ansible_facts | dict2items | map(attribute='key') | list | sort }}"
+
+- name: Debug List City
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop:
+    - "{{ list_city1 }}"
+    - "{{ list_city2 }}"
+    - "{{ list_city3 }}"
+    - "{{ list_city4 }}"
+
+- name: Debug Iterate List City
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ list_city1 }}"
+
+- name: Debug Iterate List of Dict City
+  ansible.builtin.debug:
+    msg: "{{ item.name ~ ' (' ~ item.zipcode ~ ')' }}"
+  loop: "{{ list_city4 }}"
+
+
+- name: Debug Conditional
+  ansible.builtin.debug:
+    msg: "I'm {{ ansible_facts.hostname }} in Pau"
+  when: ansible_facts.hostname == 'host2' 
+      and list_city4[0].name == 'Pau'
+  changed_when: ansible_facts.hostname == 'host2' 
+
+- name: Debug Ternary Filter
+  ansible.builtin.debug:
+    msg: "I'm on {{ (ansible_facts.hostname == 'host1') | ternary('first host', 'second host') }}"
+
+- name: Debug Ternary Expression
+  ansible.builtin.debug:
+    msg: "I'm on {{ 'first host' if ansible_facts.hostname == 'host1'  else 'second host' }}"
+
+- name: Debug Python Expression
+  ansible.builtin.debug:
+    msg: "{{ ansible_facts.hostname.upper()[::-1] }}"
+
+
+    

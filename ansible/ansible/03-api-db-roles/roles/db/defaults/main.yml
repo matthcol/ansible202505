@@ -1,0 +1,4 @@
+---
+# defaults file for roles/db
+pg_version: 17
+db_encoding: UTF8

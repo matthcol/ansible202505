@@ -1,0 +1,6 @@
+deploy_user: deployer
+deployment_public_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_deploy.pub"
+
+db_user: movie
+db_password: superpassword
+db_name: dbmovie

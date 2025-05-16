@@ -1,0 +1,6 @@
+---
+# tasks file for roles/api
+
+- name: Debug Begin Role Api
+  ansible.builtin.debug:
+    msg: "Begin Role Api"

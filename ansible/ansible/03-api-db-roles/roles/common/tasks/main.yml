@@ -1,0 +1,35 @@
+---
+# tasks file for roles/common
+
+# 1 - directory /src user/group=deployer mode=
+#    module: file
+# 2 - update + tools: tree, net-tools, ...
+#    module: apt
+
+- name: Debug Begin Role Common
+  ansible.builtin.debug:
+    msg: "Begin Role Common"
+  tags: DBG
+
+- name: Source Directory
+  ansible.builtin.file:
+    path: /src
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    state: directory
+    mode: 0755
+
+- name: Apt Update Cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  tags: SOFTWARE
+
+- name: Apt Install Tools
+  ansible.builtin.apt:
+    pkg:
+      - tree
+      - net-tools
+      - gpg
+      - iproute2
+  tags: SOFTWARE

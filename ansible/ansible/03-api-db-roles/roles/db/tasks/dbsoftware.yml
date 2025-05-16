@@ -1,0 +1,30 @@
+- name: PostgreSQL Repository Key
+  ansible.builtin.apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+  tags: SOFTWARE
+
+- name: PostgreSQL Repository
+  ansible.builtin.apt_repository:
+    repo: deb https://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main
+    filename: postgresql
+  register: add_repo_result
+  tags: SOFTWARE
+
+- name: Debug Result PostgreSQL Repository
+  tags: [DEBUG, SOFTWARE]
+  ansible.builtin.debug:
+    var: add_repo_result
+
+- name: Update package list
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600 
+  when: add_repo_result is changed
+  tags: SOFTWARE
+
+- name: PostgreSQL Server + python dependencies
+  ansible.builtin.apt:
+    name: 
+      - postgresql-{{ pg_version }}
+      - python3-psycopg2
+  tags: SOFTWARE

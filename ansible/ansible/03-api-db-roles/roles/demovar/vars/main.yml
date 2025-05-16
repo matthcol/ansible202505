@@ -1,0 +1,17 @@
+---
+# vars file for roles/demovar
+list_city1: ['Pau', 'Bayonne', 'Orthez']
+list_city2: 
+  - 'Pau'
+  - 'Bayonne'
+  - 'Orthez'
+list_city3:
+  - name: 'Pau'
+    zipcode: 64000
+  - name: 'Bayonne'
+    zipcode: 64100
+list_city4: [
+  {'name': 'Pau', 'zipcode': 64000}, 
+  {'name': 'Bayonne', 'zipcode': 64130}
+]
+

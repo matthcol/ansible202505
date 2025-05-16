@@ -1,0 +1,7 @@
+---
+- name: Demo var 1
+  hosts: all
+  # gather_facts: false
+  roles:
+    - demovar
+

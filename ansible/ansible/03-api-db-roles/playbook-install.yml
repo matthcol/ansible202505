@@ -1,0 +1,26 @@
+---
+# Play 0
+- name: Gather Facts
+  hosts: all
+  gather_facts: true
+  tags: always
+
+# Play 1
+- name: Install API
+  hosts: api
+  become: yes
+  gather_facts: false
+  roles:
+    - common
+    - api
+  tags: API
+
+# Play 2
+- name: Install DB
+  hosts: db
+  become: yes
+  gather_facts: false
+  roles:
+    - common
+    - db
+  tags: DB
