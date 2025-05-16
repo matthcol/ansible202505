@@ -1,2 +1,7 @@
 ---
 # handlers file for roles/db
+# https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html
+- name: Restart Database
+  ansible.builtin.systemd:
+    name: postgresql
+    state: restarted

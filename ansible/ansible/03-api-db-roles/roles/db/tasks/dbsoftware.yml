@@ -28,3 +28,10 @@
       - postgresql-{{ pg_version }}
       - python3-psycopg2
   tags: SOFTWARE
+
+- name: Start Service PostgreSQL Server
+  ansible.builtin.systemd:
+    name: postgresql
+    state: started
+    enabled: true
+  tags: [SOFTWARE, SERVICE]

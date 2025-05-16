@@ -1,0 +1,2 @@
+api_artifact: /mnt/artifacts/pythonapi/src/
+api_main: movieapi.main:app 

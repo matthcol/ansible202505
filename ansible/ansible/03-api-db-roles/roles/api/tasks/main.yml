@@ -4,3 +4,74 @@
 - name: Debug Begin Role Api
   ansible.builtin.debug:
     msg: "Begin Role Api"
+
+# TODO:
+# 0 - user service api + reader python files
+# 1 - copy src python
+# 2 - dependencies python (virtualenv)
+# 3 - config api to reach db
+# 4 - service
+
+# modules: copy, template (jinja2), systemd_service
+
+- name: Api OS User
+  ansible.builtin.user:
+    name: "{{ api_user}}"
+    shell: /usr/bin/false
+    create_home: false
+    system: true
+
+- name: Api Distribution Dependencies
+  ansible.builtin.apt:
+    pkg: "{{ item }}"
+  loop:
+    - python3-pip
+    - python3-venv
+
+- name: Api Artifacts
+  ansible.builtin.copy:
+    src: "{{ api_artifact }}"
+    dest: "{{ api_wd }}"
+    group: "{{ api_user }}"
+  notify: "Restart API"
+
+- name: Api Python Dependencies
+  ansible.builtin.pip:
+    requirements: "{{ api_wd }}/requirements.txt"
+    virtualenv: "{{ api_venv_dir }}"
+    virtualenv_command: "python3 -m venv"
+
+- name: Service Api Unit
+  ansible.builtin.template:
+    src: api.service.j2
+    dest: /usr/lib/systemd/system/{{ api_name}}.service
+    mode: 0644
+  notify: "Restart API"
+
+- name: Service Api Environment Directory
+  ansible.builtin.file:
+    path: /usr/lib/systemd/system/{{ api_name}}.service.d
+    state: directory
+    owner: root
+    group: "{{ api_user }}"
+    mode: 0750
+
+- name: Service Api Environment File
+  ansible.builtin.template:
+    src: db.conf.j2
+    dest: /usr/lib/systemd/system/{{ api_name}}.service.d/db.conf
+    owner: root
+    group: "{{ api_user }}"
+    mode: 0640
+  notify: "Restart API"
+
+# NB: restart is done by notication
+# - name: Service Started and Enabled
+#   ansible.builtin.systemd_service:
+#     name: "{{ api_name }}"
+#     state: started
+#     enabled: true
+
+
+
+

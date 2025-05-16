@@ -1,2 +1,7 @@
 ---
 # handlers file for roles/api
+- name: Restart API
+  ansible.builtin.systemd_service:
+    name: "{{ api_name }}"
+    state: restarted
+    daemon_reload: yes

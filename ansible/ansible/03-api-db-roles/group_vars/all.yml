@@ -1,6 +1,8 @@
 deploy_user: deployer
 deployment_public_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_deploy.pub"
 
+db_host: "{{ hostvars[groups['db'][0]]['ansible_default_ipv4']['address'] }}"
+db_port: 5432
 db_user: movie
 db_password: superpassword
 db_name: dbmovie

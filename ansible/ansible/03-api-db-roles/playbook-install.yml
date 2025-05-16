@@ -1,26 +1,42 @@
 ---
-# Play 0
+# Play
+# NB: iproute2 is needed to access host ip for the following plays
+- name: Common Softwares
+  hosts: all
+  become: true
+  gather_facts: false
+  tags: COMMON
+  roles:
+    - common
+  
+# Play: Gater facts mandatory for cross and distribution knowledge
 - name: Gather Facts
   hosts: all
   gather_facts: true
   tags: always
 
-# Play 1
-- name: Install API
-  hosts: api
-  become: yes
+# Play 
+- name: Install DB
+  hosts: db
+  become: true
   gather_facts: false
   roles:
-    - common
+    - db
+  tags: DB
+
+  # Play 
+- name: Install API
+  hosts: api
+  become: true
+  gather_facts: false
+  roles:
     - api
   tags: API
 
-# Play 2
-- name: Install DB
-  hosts: db
-  become: yes
-  gather_facts: false
-  roles:
-    - common
-    - db
-  tags: DB
+  # TODO: restart api if any changes in artifact, conf, service
+
+  # TODO: vaults for credential
+
+  # TODO: play local
+  # set facts
+  # fetch data from host
