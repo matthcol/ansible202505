@@ -1,6 +1,6 @@
 FROM debian:bookworm
 RUN mkdir /var/run/sshd; \
-    apt update && apt-get install -y tzdata openssh-server sudo python3 ansible vim sshpass tree iputils-ping; \
+    apt update && apt-get install -y tzdata openssh-server sudo python3 ansible vim sshpass tree iputils-ping git; \
     useradd -s /usr/bin/bash -m -G sudo srvadmin; \
     mkdir /home/srvadmin/ansible; \
     chown srvadmin:srvadmin  /home/srvadmin/ansible; \

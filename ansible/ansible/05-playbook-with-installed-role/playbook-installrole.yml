@@ -1,0 +1,10 @@
+---
+- name: Install role api python 
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - name: Instal role via ansible-galaxy
+    ansible.builtin.command:
+      ## choose a custom path or default roles-path
+      cmd: ansible-galaxy role install -r requirements.yml --roles-path ./roles

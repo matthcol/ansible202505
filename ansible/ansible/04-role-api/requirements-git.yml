@@ -1,0 +1,10 @@
+---
+# From a Git Repository:
+- name: learning.pythonapi2
+  src: https://github.com/matthcol/pythonapi-role
+  scm: git
+  version: main
+
+# From a Web Repository:
+# - name: learning.pythonapi
+#   src: https://github.com/matthcol/ansible202505/releases/download/API/pythonapi-role.tar.gz

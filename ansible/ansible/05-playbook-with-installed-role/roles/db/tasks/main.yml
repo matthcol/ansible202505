@@ -1,0 +1,23 @@
+---
+# tasks file for roles/db
+
+# software Postgres Server (version) via repo postgres
+# create base + user (+ privs)
+# check service DB is started/enabled
+
+- name: Debug Begin Role DB
+  ansible.builtin.debug:
+    msg: "Begin Role DB"
+
+# Import tasks from other files (static)
+#https://docs.ansible.com/ansible/devel/playbook_guide/playbooks_reuse.html
+
+# Static
+- import_tasks: dbsoftware.yml
+- import_tasks: dbconfig.yml
+
+# Dynamic
+# - name: DB Software
+#   include_tasks: dbsoftware.yml
+# - name: DB Config
+#   include_tasks: dbconfig.yml

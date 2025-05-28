@@ -1,0 +1,38 @@
+---
+# Play [Optional]
+# TODO: local task: ansible-galaxy install role
+
+# Play
+# NB: iproute2 is needed to access host ip for the following plays
+- name: Common Softwares
+  hosts: all
+  become: true
+  gather_facts: false
+  tags: COMMON
+  roles:
+    - common
+  
+# Play: Gater facts mandatory for cross and distribution knowledge
+- name: Gather Facts
+  hosts: all
+  gather_facts: true
+  tags: always
+
+# Play 
+- name: Install DB
+  hosts: db
+  become: true
+  gather_facts: false
+  roles:
+    - db
+  tags: DB
+
+  # Play 
+- name: Install API
+  hosts: api
+  become: true
+  gather_facts: false
+  roles:
+    # - learning.pythonapi2
+    - learning.pythonapi2 
+  tags: API

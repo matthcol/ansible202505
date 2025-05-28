@@ -13,6 +13,8 @@
 # 4 - service
 
 # modules: copy, template (jinja2), systemd_service
+- name: DB Credentials
+  ansible.builtin.include_vars: "{{ db_credentials }}"
 
 - name: Api OS User
   ansible.builtin.user:

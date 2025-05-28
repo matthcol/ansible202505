@@ -1,0 +1,6 @@
+---
+# From a Git Repository:
+- name: learning.pythonapi2
+  src: https://github.com/matthcol/pythonapi-role
+  scm: git
+  version: main

@@ -150,6 +150,9 @@ https://docs.ansible.com/ansible/devel/playbook_guide/playbooks_reuse.html
 ## Vaults
 Tool: ansible-vault create|encrypt|decrypt|rekey|view
 
+Options: --ask-vault-pass or --vault-password-file=.vault_pass
+
+Without options:
 ```
 export ANSIBLE_VAULT_PASSWORD_FILE=./.vault_pass
 ```
