@@ -1,0 +1,14 @@
+[Unit]
+Description=FastAPI App with Uvicorn
+After=network.target
+
+[Service]
+User={{ api_user }}
+Group={{ api_user }}
+WorkingDirectory={{ api_wd }}
+ExecStart={{ api_venv_dir }}/bin/uvicorn {{ api_main }} --host 0.0.0.0 --port {{ api_port }}
+
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

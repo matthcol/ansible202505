@@ -1,0 +1,9 @@
+---
+# defaults file for roles/api
+api_name: api
+api_user: api
+api_user_id: 666
+api_wd: /opt/api
+api_main: main:app 
+api_port: 8000
+api_venv_dir: "{{ api_wd }}/venv"
